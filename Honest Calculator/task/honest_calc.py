@@ -8,6 +8,9 @@ msg_6 = " ... lazy"
 msg_7 = " ... very lazy"
 msg_8 = " ... very, very lazy"
 msg_9 = "You are"
+msg_10 = "Are you sure? It is only one digit! (y / n)"
+msg_11 = "Don't be silly! It's just one number! Add to the memory? (y / n)"
+msg_12 = "Last chance! Do you really want to embarrass yourself? (y / n)"
 
 memory = 0.0
 
@@ -54,7 +57,22 @@ def saving_to_memory(number):
         if answer in ('y', 'n'):
             valid_answer = True
             if answer == 'y':
-                memory = number
+                if not is_one_digit(number) or clarify_saving():
+                    memory = number
+
+
+def clarify_saving():
+    dictionary = {10: msg_10, 11: msg_11, 12: msg_12}
+    msg_index = 10
+    while True:
+        answer = input(f'{dictionary[msg_index]}\n')
+        if answer == 'y':
+            if msg_index < 12:
+                msg_index += 1
+            else:
+                return True
+        elif answer == 'n':
+            return False
 
 
 def continue_evaluation():
